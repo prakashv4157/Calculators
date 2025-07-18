@@ -121,3 +121,19 @@ canvas {
   border-radius: 10px;
   padding: 10px;
 }
+.age-calculator {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 15px;
+  width: 320px;
+  max-width: 95%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#ageResult {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #00e676;
+  text-align: center;
+}
