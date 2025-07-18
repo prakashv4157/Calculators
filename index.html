@@ -2,15 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Calculator with Loan</title>
+  <title>Smart Business Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Navigation Bar -->
+  <nav>
+    <h1>🛍️ Shop Dashboard</h1>
+    <ul>
+      <li><a href="#calculator">Calculator</a></li>
+      <li><a href="#loan">Loan EMI</a></li>
+      <li><a href="#age">Age</a></li>
+      <li><a href="#billing">Billing</a></li>
+    </ul>
+  </nav>
+
   <div class="container">
 
-    <!-- Simple Calculator -->
-    <div class="calculator">
+    <!-- Calculator Section -->
+    <div class="calculator" id="calculator">
       <h2>Simple Calculator</h2>
       <input type="text" id="display" disabled>
       <div class="buttons">
@@ -39,35 +50,52 @@
       </div>
     </div>
 
-    <!-- Loan Calculator -->
-    <div class="loan-calculator">
+    <!-- Loan EMI -->
+    <div class="loan-calculator" id="loan">
       <h2>Loan Calculator</h2>
-      <label>Loan Amount:</label>
-      <input type="number" id="loanAmount" placeholder="e.g. 50000">
-
-      <label>Annual Interest Rate (%):</label>
-      <input type="number" id="interestRate" placeholder="e.g. 7.5">
-
-      <label>Loan Term (Years):</label>
-      <input type="number" id="loanYears" placeholder="e.g. 5">
-
-      <button onclick="calculateLoan()" class="equal">Calculate Payment</button>
-
+      <input type="number" id="loanAmount" placeholder="Loan Amount">
+      <input type="number" id="interestRate" placeholder="Annual Interest Rate %">
+      <input type="number" id="loanYears" placeholder="Years">
+      <button onclick="calculateLoan()" class="equal">Calculate EMI</button>
       <div id="loanResult"></div>
-      <canvas id="emiChart" width="100%" height="200"></canvas>
+      <canvas id="emiChart" height="200"></canvas>
       <button onclick="downloadPDF()" class="print">Download PDF</button>
     </div>
-  </div>
-<!-- Age Calculator -->
-<div class="age-calculator">
-  <h2>Age Calculator</h2>
-  <label for="dob">Enter Date of Birth:</label>
-  <input type="date" id="dob">
-  <button onclick="calculateAge()" class="equal">Calculate Age</button>
-  <div id="ageResult"></div>
-</div>
 
-  <!-- JS Libraries -->
+    <!-- Age Calculator -->
+    <div class="age-calculator" id="age">
+      <h2>Age Calculator</h2>
+      <input type="date" id="dob">
+      <button onclick="calculateAge()" class="equal">Calculate Age</button>
+      <div id="ageResult"></div>
+    </div>
+
+    <!-- Shop Billing System -->
+    <div class="shop-billing" id="billing">
+      <h2>🧾 Shop Billing</h2>
+      <input type="text" id="shopName" placeholder="Shop Name">
+      <input type="text" id="shopAddress" placeholder="Shop Address">
+      <input type="text" id="itemName" placeholder="Item Name">
+      <input type="number" id="itemQty" placeholder="Quantity">
+      <input type="number" id="itemPrice" placeholder="Price">
+      <button onclick="addBillItem()" class="equal">Add Item</button>
+
+      <div id="billArea">
+        <h3>🧾 Bill Items</h3>
+        <ul id="billList"></ul>
+        <p><strong>Total: Rs. <span id="billTotal">0</span></strong></p>
+        <button onclick="printBill()" class="print">Print Bill</button>
+      </div>
+
+      <div>
+        <h3>🗂️ History</h3>
+        <ul id="historyList"></ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
