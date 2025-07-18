@@ -91,10 +91,33 @@ button:hover {
   grid-column: span 2;
 }
 
+#printBtn, .print {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  background-color: #00c853;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#printBtn:hover, .print:hover {
+  background-color: #009624;
+}
+
 #loanResult {
   margin-top: 10px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: #0f0;
   text-align: center;
+}
+
+canvas {
+  margin-top: 15px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
 }
