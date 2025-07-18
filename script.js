@@ -1,130 +1,57 @@
-// Simple Calculator
-function appendValue(val) {
-  document.getElementById("display").value += val;
-}
+let billItems = [];
+let total = 0;
 
-function clearDisplay() {
-  document.getElementById("display").value = "";
-}
+function addBillItem() {
+  const name = document.getElementById("itemName").value;
+  const qty = parseInt(document.getElementById("itemQty").value);
+  const price = parseFloat(document.getElementById("itemPrice").value);
 
-function deleteLast() {
-  let display = document.getElementById("display");
-  display.value = display.value.slice(0, -1);
-}
-
-function calculate() {
-  try {
-    let result = eval(document.getElementById("display").value);
-    document.getElementById("display").value = result;
-  } catch (e) {
-    alert("Invalid Expression");
-  }
-}
-
-// Loan Calculator with Chart
-let emiChart = null;
-
-function calculateLoan() {
-  let amount = parseFloat(document.getElementById("loanAmount").value);
-  let interest = parseFloat(document.getElementById("interestRate").value);
-  let years = parseInt(document.getElementById("loanYears").value);
-
-  if (isNaN(amount) || isNaN(interest) || isNaN(years)) {
-    alert("Please fill all fields correctly.");
+  if (!name || isNaN(qty) || isNaN(price)) {
+    alert("Please enter valid item details");
     return;
   }
 
-  let monthlyRate = interest / 100 / 12;
-  let payments = years * 12;
-  let x = Math.pow(1 + monthlyRate, payments);
-  let monthly = (amount * x * monthlyRate) / (x - 1);
-
-  if (!isFinite(monthly)) {
-    document.getElementById("loanResult").innerText = "Invalid data!";
-    return;
-  }
-
-  let totalPayment = monthly * payments;
-  let totalInterest = totalPayment - amount;
-
-  document.getElementById("loanResult").innerText =
-    `Monthly Payment: Rs. ${monthly.toFixed(2)}\nTotal Interest: Rs. ${totalInterest.toFixed(2)}`;
-
-  // Render Chart
-  renderEMIChart(amount, totalInterest, totalPayment);
+  const amount = qty * price;
+  billItems.push({ name, qty, price, amount });
+  total += amount;
+  updateBillUI();
 }
 
-function renderEMIChart(principal, interest, total) {
-  const ctx = document.getElementById('emiChart').getContext('2d');
-
-  if (emiChart) emiChart.destroy(); // clear existing
-
-  emiChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Principal', 'Interest', 'Total Payment'],
-      datasets: [{
-        label: 'Amount (Rs)',
-        data: [principal, interest, total],
-        backgroundColor: ['#42a5f5', '#ef5350', '#66bb6a']
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: true }
-      }
-    }
+function updateBillUI() {
+  const billList = document.getElementById("billList");
+  billList.innerHTML = '';
+  billItems.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.name} - ${item.qty} x Rs.${item.price} = Rs.${item.amount}`;
+    billList.appendChild(li);
   });
+
+  document.getElementById("billTotal").innerText = total.toFixed(2);
 }
 
-// PDF Download using jsPDF
-function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+function printBill() {
+  const shop = document.getElementById("shopName").value || "My Shop";
+  const address = document.getElementById("shopAddress").value || "Address";
 
-  let amount = document.getElementById("loanAmount").value;
-  let rate = document.getElementById("interestRate").value;
-  let years = document.getElementById("loanYears").value;
-  let result = document.getElementById("loanResult").innerText;
+  let printContent = `🧾 ${shop}\n${address}\n\n`;
+  billItems.forEach(item => {
+    printContent += `${item.name} - ${item.qty} x ${item.price} = Rs.${item.amount}\n`;
+  });
+  printContent += `\nTotal: Rs.${total.toFixed(2)}`;
 
-  doc.setFontSize(18);
-  doc.text("Loan EMI Summary", 20, 20);
+  const win = window.open('', '', 'width=400,height=600');
+  win.document.write(`<pre>${printContent}</pre>`);
+  win.print();
+  win.close();
 
-  doc.setFontSize(12);
-  doc.text(`Loan Amount: Rs. ${amount}`, 20, 40);
-  doc.text(`Interest Rate: ${rate}%`, 20, 50);
-  doc.text(`Loan Term: ${years} years`, 20, 60);
-  doc.text(result, 20, 80);
-
-  doc.save("Loan-EMI-Summary.pdf");
+  saveToHistory(printContent);
+  billItems = [];
+  total = 0;
+  updateBillUI();
 }
-function calculateAge() {
-  const dob = document.getElementById("dob").value;
-  if (!dob) {
-    alert("Please enter your Date of Birth.");
-    return;
-  }
 
-  const birthDate = new Date(dob);
-  const today = new Date();
-
-  let years = today.getFullYear() - birthDate.getFullYear();
-  let months = today.getMonth() - birthDate.getMonth();
-  let days = today.getDate() - birthDate.getDate();
-
-  if (days < 0) {
-    months -= 1;
-    const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-    days += prevMonth.getDate();
-  }
-
-  if (months < 0) {
-    years -= 1;
-    months += 12;
-  }
-
-  document.getElementById("ageResult").innerText =
-    `You are ${years} years, ${months} months, and ${days} days old.`;
+function saveToHistory(data) {
+  const li = document.createElement('li');
+  li.textContent = data.split('\n')[0] + " - Total: " + data.match(/Total: Rs\.\d+/)[0];
+  document.getElementById("historyList").appendChild(li);
 }
