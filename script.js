@@ -16,6 +16,6 @@ function calculate() {
     let result = eval(document.getElementById("display").value);
     document.getElementById("display").value = result;
   } catch (e) {
-    alert("Invalid expression");
+    alert("Invalid Expression");
   }
 }
