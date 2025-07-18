@@ -7,32 +7,47 @@ body {
   background: #121212;
   color: white;
   font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  padding: 20px;
 }
 
-.calculator {
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.calculator, .loan-calculator {
   background: #1e1e1e;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 15px;
   width: 320px;
   max-width: 95%;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-#display {
-  width: 100%;
-  height: 60px;
-  font-size: 26px;
+h2 {
+  text-align: center;
   margin-bottom: 15px;
+}
+
+input[type="text"], input[type="number"] {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+  font-size: 20px;
   padding: 10px;
-  text-align: right;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #333;
   color: #fff;
+}
+
+label {
+  margin-top: 10px;
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
 }
 
 .buttons {
@@ -42,12 +57,12 @@ body {
 }
 
 button {
-  height: 60px;
-  font-size: 20px;
+  height: 50px;
+  font-size: 18px;
   border: none;
   border-radius: 10px;
   background-color: #2e2e2e;
-  color: #fff;
+  color: white;
   cursor: pointer;
   transition: 0.2s;
 }
@@ -66,7 +81,6 @@ button:hover {
 
 .equal {
   background-color: #0a84ff;
-  color: white;
 }
 
 .equal:hover {
@@ -75,4 +89,12 @@ button:hover {
 
 .zero {
   grid-column: span 2;
+}
+
+#loanResult {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #0f0;
+  text-align: center;
 }
